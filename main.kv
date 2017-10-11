@@ -1,0 +1,205 @@
+#:import SwapTransition kivy.uix.screenmanager.SwapTransition
+<Login>:
+    password:password
+    login_name:login_name
+    RelativeLayout:
+        TextView:
+            pos_hint:{'y':.75,'center_x':.5}
+            text:'Login'
+            color:1,1,0,1
+            font_size:sp(25)
+        BoxLayout:
+            orientation:'vertical'
+            padding:dp(80),0,dp(80),0
+            spacing:dp(10)
+
+            size_hint_y:None
+            height:self.parent.height * .4
+
+            pos_hint:{'center_y':.5,'center_x':.5}
+            canvas:
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+                    source:'images/login.jpg'
+            HBox:
+                TextView:
+                    text:'Name'
+                EditText:
+                    id:login_name
+                    hint_text:'Name'
+            HBox:
+                TextView:
+                    text:'Password'
+                EditText:
+                    id:password
+                    password:True
+                    hint_text:'Password'
+            Btn:
+                text:'Login'
+                on_release:root.login()
+
+
+<MainScreen>:
+    FloatLayout:
+        ActionBar:
+            pos_hint:{'top':1}
+            ActionView:
+                use_separator:True
+                ActionPrevious:
+                    title:'Main Screen'
+                ActionOverflow:
+                ActionButton:
+                    text:'Add'
+                    on_release:main_screen_manager.current = 'add_student'
+                ActionSeparator:
+                ActionButton:
+                    text:'Remove'
+                    on_release:main_screen_manager.current = 'remove_student'
+                ActionSeparator:
+                ActionButton:
+                    text:'Search'
+                ActionSeparator:
+                ActionButton:
+                    text:'Logout'
+                    on_release:root.manager.current = 'login'
+    MainScreenManager:
+        id:main_screen_manager
+        transition:SwapTransition()
+        AddStudent:
+            name:"add_student"
+        RemoveStudent:
+            name:'remove_student'
+
+<AddStudent>:
+    first_name:first_name
+    last_name:last_name
+    student_id:student_id
+    phone_number:phone_number
+    parent_address:parent_address
+    male_check:male_check
+    female_check:female_check
+
+    BoxLayout:
+        orientation:'vertical'
+        spacing:10
+        padding:dp(30),dp(30),dp(30),0
+        TextView:
+            text:'ADD STUDENT'
+            halign:'center'
+            font_size:sp(25)
+        ScrollView:
+            GridLayout:
+                spacing:10
+                cols:1
+                size_hint_y:None
+                height:self.minimum_height
+                EditText:
+                    hint_text:'First Name'
+                    id:first_name
+
+                EditText:
+                    hint_text:'Last Name'
+                    id:last_name
+
+                EditText:
+                    hint_text:'Student Id'
+                    id:student_id
+                EditText:
+                    hint_text:'Phone Number'
+                    id:phone_number
+                EditText:
+                    hint_text:"Parents' Address"
+                    id:parent_address
+
+                BoxLayout:
+                    size_hint_y:None
+                    height:dp(45)
+                    padding:dp(40),0,dp(40),0
+                    CheckBox:
+                        group:'sex'
+                        active:True
+                        id:male_check
+                    Label:
+                        text:'Male'
+                    CheckBox:
+                        group:'sex'
+                        id:female_check
+
+                    Label:
+                        text:'Female'
+                Btn:
+                    text:'Submit'
+                    font_size:sp(20)
+                    on_release:root.insert_student()
+
+<RemoveStudent>:
+    BoxLayout:
+        padding:dp(80),0,dp(80),0
+        spacing:10
+        orientation:'vertical'
+        size_hint_y:None
+        pos_hint:{'center_y':.5,'center_x':.5}
+        height:self.parent.height * .35
+        canvas:
+            Rectangle:
+                size:self.size
+                pos:self.pos
+                source:'images/login.jpg'
+        EditText
+            id:student_id
+            hint_text:'Student Id'
+
+        Btn:
+            size_hint_x:None
+            halign:'center'
+            width:dp(200)
+            pos_hint:{'center_x':.5}
+            text:'Remove'
+
+    TextView:
+        pos_hint:{'y':.75}
+        text:'Remove Student'
+        font_size:sp(25)
+        color:1,1,0,1
+
+
+
+
+<Manager>:
+    transition:SwapTransition()
+    Login:
+        name:'login'
+    MainScreen:
+        name:'main_screen'
+
+<EditText@TextInput>:
+    multiline:False
+    size_hint_y:None
+    height:dp(40)
+    center_x:.5
+    halign:'center'
+<Btn@Button>:
+    size_hint_y:None
+    height:dp(40)
+<TextView@Label>:
+    size_hint_y:None
+    height:dp(40)
+    markup:True
+    font_size:sp(20)
+<HBox@BoxLayout>:
+    size_hint_y:None
+    height:dp(42)
+<ErrorPopup>:
+    size_hint:None,None
+    size:400,400
+    error:error
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            id:error
+        Button:
+            text:'Ok'
+            size_hint_y:None
+            height:dp(45)
+            on_release:root.dismiss()

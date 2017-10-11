@@ -1,0 +1,3 @@
+title = Student Records
+orientation = portrait
+author = Ngenge Senior
